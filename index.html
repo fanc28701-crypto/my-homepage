@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>范超 · 城市交通规划工程师</title>
+  <style>
+    :root {
+      --bg: #070b14;
+      --surface: #0d1420;
+      --surface-2: #111a29;
+      --text: #e6edf6;
+      --muted: #8b98ab;
+      --accent: #38bdf8;
+      --accent-2: #22d3ee;
+      --accent-soft: rgba(56, 189, 248, 0.12);
+      --line: rgba(148, 163, 184, 0.14);
+      --radius: 18px;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", system-ui,
+        -apple-system, sans-serif;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+      background-image: radial-gradient(ellipse at center, transparent 50%, rgba(0, 0, 0, 0.55) 100%);
+      background-attachment: fixed;
+    }
+
+    /* 科技感网格背景 */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(56, 189, 248, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(56, 189, 248, 0.04) 1px, transparent 1px);
+      background-size: 44px 44px;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* 粒子光效画布 */
+    #stars {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+
+    .page {
+      position: relative;
+      z-index: 2;
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    /* ---------- Header ---------- */
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 2rem 0;
+    }
+
+    .brand {
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      font-size: 1.05rem;
+      font-family: "JetBrains Mono", "Consolas", monospace;
+    }
+    .brand span { color: var(--accent); }
+
+    .nav a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      margin-left: 1.5rem;
+      transition: color 0.2s;
+    }
+    .nav a:hover { color: var(--accent); }
+
+    /* ---------- Hero ---------- */
+    .hero {
+      padding: 4.5rem 0 3rem;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      background: var(--accent-soft);
+      color: var(--accent);
+      font-size: 0.82rem;
+      font-weight: 600;
+      padding: 0.3rem 0.9rem;
+      border-radius: 999px;
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      margin-bottom: 1.5rem;
+      font-family: "JetBrains Mono", "Consolas", monospace;
+    }
+
+    h1 {
+      font-size: clamp(2.4rem, 7vw, 3.8rem);
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+      margin-bottom: 1rem;
+    }
+    h1 .dot {
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .tagline {
+      font-size: clamp(1.05rem, 2.5vw, 1.3rem);
+      color: var(--muted);
+      font-weight: 400;
+      max-width: 34rem;
+    }
+
+    /* ---------- About ---------- */
+    .about {
+      background: linear-gradient(180deg, var(--surface), var(--surface-2));
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 2.5rem;
+      margin: 2rem 0 4rem;
+      box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.04), 0 20px 50px rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(6px);
+    }
+
+    .about h2 {
+      font-size: 1.15rem;
+      letter-spacing: -0.01em;
+      margin-bottom: 1rem;
+      color: var(--accent);
+      font-family: "JetBrains Mono", "Consolas", monospace;
+    }
+    .about h2::before { content: "// "; opacity: 0.7; }
+
+    .about p {
+      color: var(--muted);
+      max-width: 60ch;
+    }
+    .about p + p { margin-top: 1rem; }
+
+    /* ---------- Social ---------- */
+    .socials {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      padding-bottom: 5rem;
+    }
+
+    .socials a {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      text-decoration: none;
+      color: var(--text);
+      background: rgba(56, 189, 248, 0.05);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 0.6rem 1.1rem;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: transform 0.15s ease, border-color 0.2s, box-shadow 0.2s, background 0.2s;
+    }
+    .socials a:hover {
+      transform: translateY(-2px);
+      border-color: var(--accent);
+      background: rgba(56, 189, 248, 0.12);
+      box-shadow: 0 0 20px rgba(56, 189, 248, 0.25);
+    }
+    .socials svg { width: 18px; height: 18px; flex-shrink: 0; }
+
+    footer {
+      border-top: 1px solid var(--line);
+      padding: 1.75rem 0 2.5rem;
+      color: var(--muted);
+      font-size: 0.85rem;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    /* ---------- Responsive ---------- */
+    @media (max-width: 560px) {
+      header { flex-direction: column; align-items: flex-start; gap: 0.75rem; }
+      .nav a { margin-left: 0; margin-right: 1.25rem; }
+      .hero { padding: 3rem 0 2rem; }
+      .about { padding: 1.75rem; }
+      footer { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="stars"></canvas>
+  <div class="page">
+
+    <header>
+      <div class="brand">范超<span>.</span></div>
+      <nav class="nav">
+        <a href="#about">关于</a>
+        <a href="#contact">联系</a>
+      </nav>
+    </header>
+
+    <section class="hero">
+      <span class="eyebrow">城市交通规划工程师</span>
+      <h1>你好，我是范超<span class="dot">。</span></h1>
+      <p class="tagline">
+        我用数据与设计，让城市流动得更顺畅、更公平、更可持续。
+      </p>
+    </section>
+
+    <section class="about" id="about">
+      <h2>关于我</h2>
+      <p>
+        我是一名城市交通规划工程师，专注于城市道路网络规划、公共交通系统优化与慢行交通设计。
+        工作中，我习惯把复杂的出行数据转化为清晰的规划方案，在效率、安全与居民体验之间寻找平衡。
+      </p>
+      <p>
+        我相信好的交通规划不止是让车辆更快，更是让每一个行人、骑行者与通勤者都能被认真对待。
+        未来，我希望用更精细的数据分析与更人性化的设计，为城市带来真正有温度的出行体验。
+      </p>
+    </section>
+
+    <section class="socials" id="contact">
+      <a href="#" aria-label="GitHub">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.58 2 12.25c0 4.53 2.87 8.37 6.84 9.73.5.1.68-.22.68-.49v-1.7c-2.78.62-3.37-1.37-3.37-1.37-.45-1.18-1.11-1.5-1.11-1.5-.91-.64.07-.62.07-.62 1 .07 1.53 1.06 1.53 1.06.89 1.57 2.34 1.12 2.91.85.09-.66.35-1.12.63-1.37-2.22-.26-4.56-1.14-4.56-5.07 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.3.1-2.7 0 0 .84-.28 2.75 1.05a9.4 9.4 0 0 1 5 0c1.91-1.33 2.75-1.05 2.75-1.05.55 1.4.2 2.44.1 2.7.64.72 1.03 1.63 1.03 2.75 0 3.94-2.34 4.8-4.57 5.06.36.32.68.94.68 1.9v2.81c0 .27.18.6.69.49A10.02 10.02 0 0 0 22 12.25C22 6.58 17.52 2 12 2z"/></svg>
+        GitHub
+      </a>
+      <a href="#" aria-label="LinkedIn">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.34V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.07 2.07 0 1 1 0-4.14 2.07 2.07 0 0 1 0 4.14zM7.12 20.45H3.55V9h3.57v11.45z"/></svg>
+        LinkedIn
+      </a>
+      <a href="#" aria-label="X">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.9 1.15h3.68l-8.04 9.19L24 22.85h-7.4l-5.8-7.58-6.63 7.58H.48l8.6-9.83L0 1.15h7.59l5.24 6.93 6.07-6.93zm-1.29 19.5h2.04L6.49 3.24H4.3l13.31 17.41z"/></svg>
+        X
+      </a>
+      <a href="#" aria-label="Email">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/></svg>
+        邮箱
+      </a>
+    </section>
+
+    <footer>
+      <span>© 2026 范超</span>
+      <span>城市交通规划工程师 · 用数据让城市流动</span>
+    </footer>
+
+  </div>
+
+  <script>
+    (function () {
+      const canvas = document.getElementById('stars');
+      const ctx = canvas.getContext('2d');
+      const DPR = Math.min(window.devicePixelRatio || 1, 2);
+      const CONNECT = 150; // 连线距离（CSS 像素）
+      let w = 0, h = 0, particles = [], sprites = [];
+
+      function makeSprite(rgb) {
+        const s = document.createElement('canvas');
+        s.width = s.height = 64;
+        const c = s.getContext('2d');
+        const g = c.createRadialGradient(32, 32, 0, 32, 32, 32);
+        g.addColorStop(0, 'rgba(235, 248, 255, 1)');
+        g.addColorStop(0.2, 'rgba(' + rgb + ', 0.9)');
+        g.addColorStop(0.5, 'rgba(' + rgb + ', 0.35)');
+        g.addColorStop(1, 'rgba(' + rgb + ', 0)');
+        c.fillStyle = g;
+        c.fillRect(0, 0, 64, 64);
+        return s;
+      }
+
+      function resize() {
+        w = canvas.width = Math.floor(window.innerWidth * DPR);
+        h = canvas.height = Math.floor(window.innerHeight * DPR);
+        canvas.style.width = window.innerWidth + 'px';
+        canvas.style.height = window.innerHeight + 'px';
+
+        const count = Math.min(140, Math.floor((window.innerWidth * window.innerHeight) / 11000));
+        particles = [];
+        for (let i = 0; i < count; i++) {
+          particles.push({
+            x: Math.random() * w,
+            y: Math.random() * h,
+            vx: (Math.random() - 0.5) * 0.16,
+            vy: (Math.random() - 0.5) * 0.16,
+            r: (Math.random() * 1.6 + 0.5) * DPR,
+            sprite: sprites[Math.random() < 0.7 ? 0 : 1],
+            phase: Math.random() * Math.PI * 2,
+            twinkleSpeed: Math.random() * 1.2 + 0.4,
+            baseAlpha: Math.random() * 0.5 + 0.3
+          });
+        }
+      }
+
+      function step() {
+        ctx.clearRect(0, 0, w, h);
+        const t = Date.now() * 0.001;
+        const maxDist = CONNECT * DPR;
+
+        // 粒子之间的连线
+        ctx.lineWidth = 0.5 * DPR;
+        for (let i = 0; i < particles.length; i++) {
+          const a = particles[i];
+          for (let j = i + 1; j < particles.length; j++) {
+            const b = particles[j];
+            const dx = a.x - b.x, dy = a.y - b.y;
+            const dist2 = dx * dx + dy * dy;
+            if (dist2 < maxDist * maxDist) {
+              const alpha = (1 - Math.sqrt(dist2) / maxDist) * 0.14;
+              ctx.strokeStyle = 'rgba(99, 160, 255, ' + alpha + ')';
+              ctx.beginPath();
+              ctx.moveTo(a.x, a.y);
+              ctx.lineTo(b.x, b.y);
+              ctx.stroke();
+            }
+          }
+        }
+
+        // 绘制粒子
+        for (const p of particles) {
+          p.x += p.vx * DPR;
+          p.y += p.vy * DPR;
+          if (p.x < -20) p.x = w + 20; else if (p.x > w + 20) p.x = -20;
+          if (p.y < -20) p.y = h + 20; else if (p.y > h + 20) p.y = -20;
+
+          const alpha = Math.max(0, Math.min(1, p.baseAlpha + Math.sin(t * p.twinkleSpeed + p.phase) * 0.3));
+          ctx.globalAlpha = alpha;
+          const size = p.r * 3;
+          ctx.drawImage(p.sprite, p.x - size / 2, p.y - size / 2, size, size);
+        }
+        ctx.globalAlpha = 1;
+
+        requestAnimationFrame(step);
+      }
+
+      sprites = [makeSprite('120, 200, 255'), makeSprite('130, 140, 255')];
+      resize();
+      window.addEventListener('resize', resize);
+      requestAnimationFrame(step);
+    })();
+  </script>
+</body>
+</html>
